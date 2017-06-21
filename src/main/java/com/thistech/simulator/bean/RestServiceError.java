@@ -21,7 +21,7 @@ public class RestServiceError {
         this.message = message;
     }
 
-    public static RestServiceError build (Type errorType, String message) {
+    public static RestServiceError build(Type errorType, String message) {
         RestServiceError error = new RestServiceError();
         error.code = errorType.getCode();
         error.message = message;

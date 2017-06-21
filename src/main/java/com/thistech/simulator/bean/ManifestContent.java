@@ -4,7 +4,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,14 +18,15 @@ import java.util.List;
 /**
  * Created by xieyanyang on 20/06/2017.
  */
+@Component
 public class ManifestContent {
     public static HashMap<String, String> cachedFiles = new HashMap<>();
     private static Logger logger = LoggerFactory.getLogger(ManifestContent.class);
 
-    @Value("${response.url.redundancy}")
-    private static String responseURLRedundancy;
+    @Autowired
+    public MSProperties msProperties;
 
-    public static void initResponseFiles() {
+    public void initResponseFiles() {
         logger.info("Init manifest contents for folder /content");
         Collection<File> fileList = FileUtils.listFiles(new File("content"), null, false);
         for (File file : fileList) {
@@ -31,14 +34,14 @@ public class ManifestContent {
         }
     }
 
-    public static String getResponseByFileName(String fileName) {
+    private String getResponseByFileName(String fileName) {
         String response = cachedFiles.get(fileName);
         if (response == null) {
             try {
                 response = FileUtils.readFileToString(new File("content/" + fileName));
                 if (response != null) {
                     logger.debug("Read response from content/{}:\r\n{}", fileName, response);
-                    if (StringUtils.isNoneEmpty(responseURLRedundancy)) {
+                    if (StringUtils.isNoneEmpty(msProperties.getResponseUrlRedundancy())) {
                         response = enlarge_bitrate_response(response);
                         logger.debug("Enlarge bitrate response by redundancy string, enlarged response is:\n{}", response);
                     }
@@ -56,7 +59,7 @@ public class ManifestContent {
         return response;
     }
 
-    public static String enlarge_bitrate_response(String response_string) {
+    private String enlarge_bitrate_response(String response_string) {
         if (StringUtils.isEmpty(response_string) || StringUtils.containsIgnoreCase(response_string, "#EXT-X-STREAM-INF")) {
             return response_string;
         }
@@ -66,7 +69,7 @@ public class ManifestContent {
             if (StringUtils.startsWith(line, "#")) {
                 contents.add(line);
             } else {
-                contents.add(responseURLRedundancy + line);
+                contents.add(msProperties.getResponseUrlRedundancy() + line);
             }
         }
         return StringUtils.join(contents, "\n");

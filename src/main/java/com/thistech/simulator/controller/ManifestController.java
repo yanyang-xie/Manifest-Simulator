@@ -1,22 +1,22 @@
 package com.thistech.simulator.controller;
 
+import com.thistech.simulator.bean.MSProperties;
 import com.thistech.simulator.bean.ManifestContent;
-import com.thistech.simulator.bean.RestServiceError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.Set;
 
 @Controller
 @RequestMapping
-public class ManifestController extends BaseController{
+public class ManifestController extends BaseController {
     private static Logger logger = LoggerFactory.getLogger(ManifestController.class);
+
+    @Autowired
+    public MSProperties msProperties;
 
     @RequestMapping(value = "/origin/playlists/**/{contentName:.*}", method = {RequestMethod.GET, RequestMethod.POST})
     public

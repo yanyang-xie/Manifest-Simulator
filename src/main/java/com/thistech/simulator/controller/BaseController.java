@@ -32,7 +32,7 @@ public class BaseController {
         logger.error("Not support request {}", req.getRequestURL().toString());
     }
 
-    @ResponseStatus(value= HttpStatus.BAD_REQUEST)  // 400
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)  // 400
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public RestServiceError handleValidationException(ConstraintViolationException ex) {
@@ -44,7 +44,7 @@ public class BaseController {
         return RestServiceError.build(RestServiceError.Type.VALIDATION_ERROR, strBuilder.toString());
     }
 
-    @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)  // 500
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)  // 500
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public RestServiceError handleException(Exception ex) {

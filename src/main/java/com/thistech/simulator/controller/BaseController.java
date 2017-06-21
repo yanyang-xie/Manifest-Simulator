@@ -15,7 +15,6 @@ import java.util.Set;
 /**
  * Created by yanyang.xie@gmail.com on 21/06/2017.
  */
-
 public class BaseController {
     private static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
@@ -36,6 +35,8 @@ public class BaseController {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public RestServiceError handleValidationException(ConstraintViolationException ex) {
+        logger.error("BAD_REQUEST", ex);
+
         Set<ConstraintViolation<?>> errors = ex.getConstraintViolations();
         StringBuilder strBuilder = new StringBuilder();
         for (ConstraintViolation<?> violation : errors) {
@@ -48,6 +49,7 @@ public class BaseController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public RestServiceError handleException(Exception ex) {
+        logger.error("INTERNAL_SERVER_ERROR", ex);
         return RestServiceError.build(RestServiceError.Type.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 }

@@ -1,5 +1,8 @@
 package com.thistech.simulator.bean;
 
+/**
+ * Created by yanyang.xie@gmail.com on 21/06/2017.
+ */
 public class RestServiceError {
 
     private String code;

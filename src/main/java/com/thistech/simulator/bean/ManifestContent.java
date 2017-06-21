@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by xieyanyang on 20/06/2017.
+ * Created by yanyang.xie@gmail.com on 21/06/2017.
  */
 @Component
 public class ManifestContent {
@@ -59,13 +59,13 @@ public class ManifestContent {
         return response;
     }
 
-    private String enlarge_bitrate_response(String response_string) {
-        if (StringUtils.isEmpty(response_string) || StringUtils.containsIgnoreCase(response_string, "#EXT-X-STREAM-INF")) {
-            return response_string;
+    private String enlarge_bitrate_response(String responseString) {
+        if (StringUtils.isEmpty(responseString) || StringUtils.containsIgnoreCase(responseString, "#EXT-X-STREAM-INF")) {
+            return responseString;
         }
 
         List<String> contents = new ArrayList<>();
-        for (String line : response_string.split("\n")) {
+        for (String line : responseString.split("\n")) {
             if (StringUtils.startsWith(line, "#")) {
                 contents.add(line);
             } else {
@@ -73,6 +73,15 @@ public class ManifestContent {
             }
         }
         return StringUtils.join(contents, "\n");
+    }
+
+    public String fetchMSFromCache(String contentName) throws Exception{
+         if (cachedFiles.containsKey(contentName)){
+             return cachedFiles.get(contentName);
+         }else{
+             logger.error("Not found content by name {}", contentName);
+             throw new Exception(String.format("Not found content by name %s", contentName));
+         }
     }
 
 }

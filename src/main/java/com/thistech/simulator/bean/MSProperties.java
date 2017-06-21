@@ -7,15 +7,17 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-import java.util.List;
+/**
+ * Created by yanyang.xie@gmail.com on 21/06/2017.
+ */
 
 @Configuration
-@PropertySources({@PropertySource(value = "file:conf/ms.properties"),})
+@PropertySources({@PropertySource(value = "file:conf/ms.properties", ignoreResourceNotFound=true),})
 public class MSProperties {
-    @Value("${response.url.redundancy}")
+    @Value("${response.url.redundancy:}")
     private String responseUrlRedundancy;
 
-    @Value("${content.seed.suffix}")
+    @Value("${content.seed.suffix:@adsuffix}")
     private String contentSeedSuffix;
 
     @Value("${response.delay.time.min:0}")
@@ -23,6 +25,13 @@ public class MSProperties {
 
     @Value("${response.delay.time.max:0}")
     private int responseMaxDelayTime;
+
+    @Value("${content.medis.suffix:.m3u8}")
+    private String contentMedisSuffix;
+
+
+    @Value("${content.index.flag:#EXT-X-MEDIA-SEQUENCE}")
+    private String contentIndexFlag;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -45,4 +54,11 @@ public class MSProperties {
         return responseMinDelayTime;
     }
 
+    public String getContentMedisSuffix() {
+        return contentMedisSuffix;
+    }
+
+    public String getContentIndexFlag() {
+        return contentIndexFlag;
+    }
 }

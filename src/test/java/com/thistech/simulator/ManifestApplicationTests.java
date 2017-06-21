@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.thistech.simulator.bean.MSProperties;
 import com.thistech.simulator.bean.ManifestContent;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,10 @@ import com.thistech.simulator.controller.ManifestController;
 public class ManifestApplicationTests {
 
     private MockMvc mvc;
+
+    @Autowired
+    private MSProperties msProperties;
+
     @Autowired
     private ManifestContent manifestContent;
 
@@ -36,7 +41,7 @@ public class ManifestApplicationTests {
         RequestBuilder request = get("/origin/playlists/demo.m3u8");
         mvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().string("demo-content"));
+                .andExpect(content().string(msProperties.getResponseUrlRedundancy() + "demo-content"));
 
         request = get("/index");
         mvc.perform(request).andExpect(status().isNotFound());

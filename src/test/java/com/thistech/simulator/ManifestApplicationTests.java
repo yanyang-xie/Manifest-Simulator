@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.thistech.simulator.controller.ManifestController;
+import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,12 +29,14 @@ public class ManifestApplicationTests {
     private MSProperties msProperties;
 
     @Autowired
-    private ManifestContent manifestContent;
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setup() {
-        this.mvc = MockMvcBuilders.standaloneSetup(new ManifestController()).build();
-        manifestContent.initResponseFiles();
+        this.mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        // standaloneSetup only for one controller, not for integration web test. so if use it, autowired data could not be initialized.
+        //this.mvc = MockMvcBuilders.standaloneSetup(new ManifestController()).build();
     }
 
     @Test
@@ -43,7 +46,7 @@ public class ManifestApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(msProperties.getResponseUrlRedundancy() + "demo-content"));
 
-        request = get("/index");
+        request = get("/wrongURL");
         mvc.perform(request).andExpect(status().isNotFound());
     }
 

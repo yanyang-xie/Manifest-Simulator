@@ -61,9 +61,6 @@ public class ManifestController extends BaseController {
     }
 
     private void delay() {
-        logger.info("xie");
-        logger.info(msProperties.toString());
-
         int delayTime = getRandom(msProperties.getResponseMinDelayTime(), msProperties.getResponseMaxDelayTime());
         logger.debug("Response will be delayed {}", delayTime);
         try {

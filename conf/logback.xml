@@ -39,8 +39,15 @@
     </appender>
 
     <!-- 定义日志级别, 也可在应用配置中指定 -->
-    <logger name ="com.thistech" level="INFO" />
-    <logger name="org.springframework.web" level="INFO"/>
+    <springProfile name="feature">
+        <logger name ="com.thistech" level="DEBUG" />
+    </springProfile>
+
+    <springProfile name="perf">
+        <logger name ="com.thistech" level="INFO" />
+    </springProfile>
+
+    <logger name="org.springframework" level="INFO"/>
     <root level="ERROR">
         <appender-ref ref="CONSOLE" /> <!-- 线上不需要输出到 CONSOLE -->
         <appender-ref ref="FILE" />

@@ -44,6 +44,11 @@ public class ManifestApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(msProperties.getResponseUrlRedundancy() + "demo-content"));
 
+        request = get("/origin/playlists/123/aaa/ttt/demo.m3u8");
+        mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string(msProperties.getResponseUrlRedundancy() + "demo-content"));
+
         request = get("/wrongURL");
         mvc.perform(request).andExpect(status().isNotFound());
     }

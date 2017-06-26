@@ -5,8 +5,8 @@
 
     <!-- 命令行输出, 一般线上不用 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder  charset="UTF-8">
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %-45logger{3} [%-4line] %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -22,6 +22,10 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_FILE_DIR}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %-45logger{3} [%-4line] %msg%n</pattern>
+        </encoder>
     </appender>
 
     <!-- error 日志 appender -->
@@ -30,8 +34,8 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
-        <encoder  charset="UTF-8">
-            <pattern>${FILE_LOG_PATTERN}</pattern>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %-45logger{3} [%-4line] %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_FILE_DIR}/${LOG_FILE_NAME}_error.%d{yyyy-MM-dd}.log</fileNamePattern>

@@ -29,9 +29,11 @@ public class ManifestContent {
     public void initResponseFiles() {
         logger.info("Init manifest contents for folder /content");
         Collection<File> fileList = FileUtils.listFiles(new File("content"), null, false);
+        fileList.forEach(file -> getResponseByFileName(file.getName()));
+        /**
         for (File file : fileList) {
             getResponseByFileName(file.getName());
-        }
+        }*/
     }
 
     private String getResponseByFileName(String fileName) {
